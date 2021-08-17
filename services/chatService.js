@@ -9,8 +9,8 @@ class ChatService {
                 {
                     participants: {
                         $all: [
-                            { "$elemMatch": names[0] },
-                            { "$elemMatch": names[1] }
+                            { "$elemMatch": { "$eq": names[0] } },
+                            { "$elemMatch": { "$eq": names[1] } }
                         ]
                     }
                 },
