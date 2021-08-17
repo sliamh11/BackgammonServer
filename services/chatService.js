@@ -6,7 +6,14 @@ class ChatService {
         try {
             const sortedNames = names.sort();
             const chat = await ChatModel.findOneAndUpdate(
-                { participants: { $all: names } },
+                {
+                    participants: {
+                        $all: [
+                            { "$elemMatch": names[0] },
+                            { "$elemMatch": names[1] }
+                        ]
+                    }
+                },
                 {
                     $setOnInsert: {
                         chat_name: sortedNames.join("-"),
