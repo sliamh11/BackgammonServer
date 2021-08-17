@@ -21,7 +21,7 @@ class ChatService {
                         history: new Array()
                     }
                 },
-                { upsert: true, returnDocument: true },
+                { upsert: true, new: true },
             )
             return chat;
             // let chat = await ChatModel.findOne({ participants: { $all: names } });
