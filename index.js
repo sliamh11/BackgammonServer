@@ -21,6 +21,6 @@ socketEvents(io);
 app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
 
-server.listen(8080, () => {
-    console.log("Server is up on port", 8080);
+server.listen(config.PORT, () => {
+    console.log("Server is up on port", config.PORT);
 })
