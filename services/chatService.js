@@ -4,20 +4,32 @@ class ChatService {
 
     getChat = async (names) => {
         try {
-            let chat = await ChatModel.findOne({ participants: { $all: names } });
-            // If room found
-            if (chat) {
-                return chat;
-            }
-
-            // If room wasn't found
             const sortedNames = names.sort();
-            chat = await ChatModel.create({
-                chat_name: sortedNames.join("-"),
-                participants: sortedNames,
-                history: new Array()
-            });
+            const chat = await ChatModel.findOneAndUpdate(
+                { participants: { $all: names } },
+                {
+                    $setOnInsert: {
+                        chat_name: sortedNames.join("-"),
+                        participants: sortedNames,
+                        history: new Array()
+                    }
+                },
+                { upsert: true, returnDocument: true },
+            )
             return chat;
+            // let chat = await ChatModel.findOne({ participants: { $all: names } });
+            // // If room found
+            // if (chat) {
+            //     return chat;
+            // }
+
+            // // If room wasn't found
+            // chat = await ChatModel.create({
+            //     chat_name: sortedNames.join("-"),
+            //     participants: sortedNames,
+            //     history: new Array()
+            // });
+            // return chat;
         } catch (error) {
             throw error;
         }
