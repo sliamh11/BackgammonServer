@@ -65,6 +65,7 @@ class BlackService {
                     moveableOptions.push(targetIndex);
                 }
             });
+            return moveableOptions;
         } catch (error) {
             throw error;
         }
