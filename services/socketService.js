@@ -16,7 +16,7 @@ class SocketService {
     }
 
     removeOnlineUser = (socketId) => {
-        let index = online_users.findIndex(user => user.socketId === socketId);
+        const index = online_users.findIndex(user => user.socketId === socketId);
         if (index != -1) {
             online_users.splice(index, 1);
         }
@@ -24,14 +24,7 @@ class SocketService {
     }
 
     addOnlineUser = (socketId, username) => {
-        try {
-            online_users.push({ socketId: socketId, username: username });
-            console.log(online_users);
-            return true;
-        } catch (error) {
-            console.log(error.message);
-            return false;
-        }
+        online_users.push({ socketId: socketId, username: username });
     }
 }
 

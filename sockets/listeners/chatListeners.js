@@ -7,7 +7,7 @@ class ChatListeners {
         this.service = service;
     }
 
-    // Pulling the 
+    // Pulling the chat history, if exists.
     onJoinChat = async (participants) => {
         try {
             const chat = await chatService.getChat(participants);
@@ -16,7 +16,7 @@ class ChatListeners {
                 this.io.to(chat.chat_name).emit("joined_chat", chat);
             }
         } catch (error) {
-            throw error;
+            this.socket.emit("server_error",error.message);
         }
     }
 
@@ -26,7 +26,7 @@ class ChatListeners {
             chatService.saveNewMessage(msgInfo);
             this.socket.to(msgInfo.chat_name).emit("receive_msg", msgInfo.content);
         } catch (error) {
-            throw error;
+            this.socket.emit("server_error",error.message);
         }
     }
 

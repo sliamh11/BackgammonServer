@@ -52,7 +52,7 @@ class AuthService {
 
     // Check if the input's password is the same as the one in the DB, when encrypted.
     validateEncryptedPassword = async (password, user) => {
-        return await bcrypt.compare(password, user.password)
+        return await bcrypt.compare(password, user.password);
     }
 }
 
