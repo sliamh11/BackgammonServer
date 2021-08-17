@@ -4,9 +4,10 @@ class ChatService {
 
     getChat = async (names) => {
         try {
+            // Sort names so they'll be in the same order, for everyone.
             const sortedNames = names.sort();
             const chat = await ChatModel.findOneAndUpdate(
-                {
+                { // Look for a document where all of the participants exist in 'names' array.
                     participants: {
                         $all: [
                             { "$elemMatch": { "$eq": names[0] } },
@@ -14,29 +15,17 @@ class ChatService {
                         ]
                     }
                 },
-                {
+                { // Only when document not found - insert the following data
                     $setOnInsert: {
                         chat_name: sortedNames.join("-"),
                         participants: sortedNames,
                         history: new Array()
                     }
                 },
-                { upsert: true, new: true },
+                // Return the new, updated document (either the found one / new one).
+                { upsert: true, new: true }
             )
             return chat;
-            // let chat = await ChatModel.findOne({ participants: { $all: names } });
-            // // If room found
-            // if (chat) {
-            //     return chat;
-            // }
-
-            // // If room wasn't found
-            // chat = await ChatModel.create({
-            //     chat_name: sortedNames.join("-"),
-            //     participants: sortedNames,
-            //     history: new Array()
-            // });
-            // return chat;
         } catch (error) {
             throw error;
         }
